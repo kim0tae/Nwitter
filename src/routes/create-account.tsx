@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useState } from "react";
 import { styled } from "styled-components";
+
+import { useNavigate } from "react-router-dom";
+import { auth } from "../\bfirebase";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -9,11 +13,9 @@ const Wrapper = styled.div`
   width: 420px;
   padding: 50px 0px;
 `;
-
 const Title = styled.h1`
   font-size: 42px;
 `;
-
 const Form = styled.form`
   margin-top: 50px;
   display: flex;
@@ -21,7 +23,6 @@ const Form = styled.form`
   gap: 10px;
   width: 100%;
 `;
-
 const Input = styled.input`
   padding: 10px 20px;
   border-radius: 50px;
@@ -35,14 +36,14 @@ const Input = styled.input`
     }
   }
 `;
-
 const Error = styled.span`
   font-weight: 600;
   color: tomato;
 `;
 
 export default function CreateAccount() {
-  const [isLoading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,20 +60,33 @@ export default function CreateAccount() {
       setPassword(value);
     }
   };
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isLoading || name === "" || email === "" || password === "") return;
     try {
-      // create user
+      // create an account
+      // set the name of the user.
       // redirect to the home page
+      setLoading(true);
+      const credentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(credentials.user);
+      await updateProfile(credentials.user, {
+        displayName: name,
+      });
+      navigate("/");
     } catch (e) {
-      setError(e);
+      // setError
     } finally {
       setLoading(false);
     }
   };
   return (
     <Wrapper>
-      <Title> Log in to X </Title>
+      <Title>Join 𝕏</Title>
       <Form onSubmit={onSubmit}>
         <Input
           onChange={onChange}
@@ -100,10 +114,10 @@ export default function CreateAccount() {
         />
         <Input
           type="submit"
-          value={isLoading ? "Loading..." : "Create account"}
+          value={isLoading ? "Loading..." : "Create Account"}
         />
       </Form>
-      {error !== "" ? <Error> {error} </Error> : null}
+      {error !== "" ? <Error>{error}</Error> : null}
     </Wrapper>
   );
 }
