@@ -1,8 +1,4 @@
-import {
-  GithubAuthProvider,
-  signInWithPopup,
-  signInWithRedirect,
-} from "firebase/auth";
+import { GithubAuthProvider, signInWithRedirect } from "firebase/auth";
 import { styled } from "styled-components";
 import { auth } from "../\bfirebase";
 import { useNavigate } from "react-router-dom";
@@ -33,8 +29,8 @@ export default function GitHubButton() {
       const provider = new GithubAuthProvider();
       await signInWithRedirect(auth, provider);
       navigate("/");
-    } catch (e) {
-      console.log(e.message);
+    } catch (error) {
+      //console.log(error.message);
     }
   };
   return (
