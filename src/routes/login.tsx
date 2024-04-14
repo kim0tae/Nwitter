@@ -11,6 +11,8 @@ import {
   Error,
   Title,
 } from "../components/auth-components";
+import { GithubAuthProvider } from "firebase/auth/cordova";
+import GitHubButton from "../components/github-btn";
 
 export default function CreateAccount() {
   const navigate = useNavigate();
@@ -76,6 +78,7 @@ export default function CreateAccount() {
         Don't have an account ?{" "}
         <Link to="/create-account"> Create one &rarr; </Link>
       </Switcher>
+      <GitHubButton />
     </Wrapper>
   );
 }
