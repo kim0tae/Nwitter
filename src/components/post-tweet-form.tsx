@@ -66,7 +66,7 @@ export default function PostTweetForm() {
   };
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    if (files && files.length === 1 && files.size < 1 * 1024 * 1024) {
+    if (files && files.length === 1 && files[0].size < 1 * 1024 * 1024) {
       setFile(files[0]);
     }
   };
@@ -107,7 +107,8 @@ export default function PostTweetForm() {
       <TextArea
         required
         rows={5}
-        maxLength={180}
+        maxLen
+        th={180}
         onChange={onChange}
         value={tweet}
         placeholder="What is Happening"
