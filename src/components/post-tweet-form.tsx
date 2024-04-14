@@ -107,8 +107,7 @@ export default function PostTweetForm() {
       <TextArea
         required
         rows={5}
-        maxLen
-        th={180}
+        maxLength={180}
         onChange={onChange}
         value={tweet}
         placeholder="What is Happening"
