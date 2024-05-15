@@ -38,6 +38,19 @@ const DeteleButton = styled.button`
   cursor: pointer;
 `;
 
+const EditButton = styled.button`
+  background-color: yellowgreen;
+  color: white;
+  font-weight: 600;
+  border: 0;
+  font-size: 12px;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+`;
+
 export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
   const user = auth.currentUser;
   const onDelete = async () => {
@@ -62,6 +75,7 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
         {user?.uid === userId ? (
           <DeteleButton onClick={onDelete}>Delete</DeteleButton>
         ) : null}
+        {user?.uid === userId ? <EditButton> Edit </EditButton> : null}
       </Column>
       <Column>{photo ? <Photo src={photo} /> : null}</Column>
     </Wrapper>
